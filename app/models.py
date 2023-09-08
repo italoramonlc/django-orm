@@ -42,8 +42,8 @@ class Endereco(models.Model):
 class Cliente(models.Model):
     nome = models.CharField(max_length=100, null=False, blank=False)
     data_nascimento = models.DateField(null=False, blank=False)
-    email = models.EmailField(null=False, blank=False)
-    profissao = models.CharField(max_length=100, null=False, blank=False)
+    email = models.EmailField(null=True, blank=True)
+    profissao = models.CharField(max_length=100, null=True, blank=True)
     endereco = models.OneToOneField(to=Endereco,on_delete=models.SET_NULL,null=True)
 
     def __str__(self):
@@ -61,6 +61,4 @@ class Atendente(models.Model):
     email = models.EmailField(null=False,blank=False)
     clientes = models.ManyToManyField(to=Cliente,related_name="atendente_cliente")
 
-    class Meta:
-        db_table = 'app_funcionario'#muda nome da tabela
 

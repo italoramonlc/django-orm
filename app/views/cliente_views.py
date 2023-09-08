@@ -1,4 +1,5 @@
 from django.http import HttpResponseRedirect
+from django.shortcuts import render
 from django.urls import reverse_lazy,reverse
 from django.views.generic import CreateView, ListView, UpdateView, DetailView, DeleteView
 from app.models import Cliente
@@ -27,12 +28,15 @@ class ClienteCreateView(CreateView):
             cliente.endereco = endereco
             cliente.save()
             return HttpResponseRedirect(reverse("lista_clientes"))
+        return render(request,"clientes/form_cliente.html",{
+            "form":cliente_form,"endereco_form":endereco_form
+        })
 
 class ClienteListView(ListView):
     model = Cliente
     template_name = "clientes/lista_clientes.html"
     # queryset = Cliente.objects.all().order_by("nome")#ordena os dados
-    queryset = Cliente.objects.filter(profissao="Midia")
+    queryset = Cliente.objects.filter(profissao="Programador")
 
 # Adicionar um comentário
 class ClienteDetailView(DetailView):
@@ -69,6 +73,8 @@ class ClienteUpdateView(UpdateView):
             cliente.endereco = endereco
             cliente.save()
             return HttpResponseRedirect(reverse("lista_clientes"))
+
+
 
 class ClienteDeleteView(DeleteView):
     model = Cliente
